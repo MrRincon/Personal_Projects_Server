@@ -1,0 +1,31 @@
+{
+  "name": "personal_projects_server",
+  "version": "1.0.0",
+  "description": "Servers Manager for Personal Projects",
+  "main": "servers.js",
+  "scripts": {
+    "start": "node servers.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrRincon/Personal_Projects_Server.git"
+  },
+  "author": "Mr. Rincon",
+  "license": "ISC",
+  "homepage": "https://github.com/MrRincon/Personal_Projects_Server#readme",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^5.2.1",
+    "mongodb": "^7.0.0",
+    "morgan": "^1.10.1",
+    "node": "^25.3.0",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^7.0.12",
+    "nodemon": "^3.1.11",
+    "path": "^0.12.7",
+    "properties-reader": "^2.3.0"
+  }
+}

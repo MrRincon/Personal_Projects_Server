@@ -29,7 +29,7 @@ let assetsPRPath = path.join(__dirname, './assets/personalResumeAssets/');
 console.log(assetsPRPath);
 app.use(express.static(assetsPRPath));
 
-let assetsSSPath = path.join(__dirname, './assets/slotScholarsAssets/');
+let assetsSSPath = path.join(__dirname, './assets/slotScholarAssets/');
 console.log(assetsSSPath);
 app.use(express.static(assetsSSPath));
 

@@ -123,7 +123,6 @@ async function isEmailValidAbstract(email) {
 
 // GET to the server welcome page
 PR_ROUTER.get(`/`, (req, res) => {
-    res.send("Welcome to the server side of my resume");
 });
 
 // GET for the owner information

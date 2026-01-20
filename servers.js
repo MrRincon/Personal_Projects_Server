@@ -26,9 +26,11 @@ app.use(cors());
 
 // Second Middleware to serve static files (images, etc.)
 let assetsPRPath = path.join(__dirname, 'personalResumeAssets');
+console.log(assetsPRPath);
 app.use(express.static(assetsPRPath));
 
 let assetsSSPath = path.join(__dirname, 'slotScholarsAssets');
+console.log(assetsSSPath);
 app.use(express.static(assetsSSPath));
 
 // async function to connect to MongoDB databases

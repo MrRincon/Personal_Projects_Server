@@ -25,11 +25,11 @@ app.use(morgan('short'));
 app.use(cors());
 
 // Second Middleware to serve static files (images, etc.)
-let assetsPRPath = path.join(__dirname, './assets/personalResumeAssets/');
+let assetsPRPath = path.join(__dirname, './assets/PRAssets/');
 console.log(assetsPRPath);
 app.use(express.static(assetsPRPath));
 
-let assetsSSPath = path.join(__dirname, './assets/slotScholarAssets/');
+let assetsSSPath = path.join(__dirname, './assets/SSAssets/');
 console.log(assetsSSPath);
 app.use(express.static(assetsSSPath));
 

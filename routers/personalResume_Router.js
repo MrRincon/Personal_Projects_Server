@@ -13,9 +13,9 @@ const crypto = require("crypto");
 // Import collections from mongoDB server
 const { getPRCollection } = require('../mongoServers.js');
 
-const PR_ROUTES = express();
-PR_ROUTES.use(bodyParser.json());
-PR_ROUTES.set('json spaces', 3);
+const PR_ROUTER = express();
+PR_ROUTER.use(bodyParser.json());
+PR_ROUTER.set('json spaces', 3);
 
 // Importing the ObjectId to work with MongoDB doc IDs
 const { ObjectId } = require('mongodb');
@@ -122,12 +122,12 @@ async function isEmailValidAbstract(email) {
 }
 
 // GET to the server welcome page
-PR_ROUTES.get(`/`, (req, res) => {
+PR_ROUTER.get(`/`, (req, res) => {
     res.send("Welcome to the server side of my resume");
 });
 
 // GET for the owner information
-PR_ROUTES.get(`/Owner`, async (req, res) => {
+PR_ROUTER.get(`/Owner`, async (req, res) => {
     const { userCollection } = getPRCollection();
     try {
         const owner = await userCollection.find({ name: "Alam" }).toArray();
@@ -159,13 +159,13 @@ PR_ROUTES.get(`/Owner`, async (req, res) => {
 });
 
 // GET for all the links related to the user
-PR_ROUTES.get("/Links/:userId", (req, res) => {
+PR_ROUTER.get("/Links/:userId", (req, res) => {
     const { linksCollection } = getPRCollection();
     return getUserSubCollection(req, res, "links", linksCollection);
 });
 
 // GET for an specific education of the user
-PR_ROUTES.get(`/Education/:educationId`, async (req, res) => {
+PR_ROUTER.get(`/Education/:educationId`, async (req, res) => {
     const { educationCollection } = getPRCollection();
     if (!ObjectId.isValid(req.params.educationId)) {
         return res.status(400).json({ success: false, message: "Invalid user ID" });
@@ -189,19 +189,19 @@ PR_ROUTES.get(`/Education/:educationId`, async (req, res) => {
 });
 
 // GET for all the skills related to the user
-PR_ROUTES.get("/Skills/:userId", (req, res) => {
+PR_ROUTER.get("/Skills/:userId", (req, res) => {
     const { skillsCollection } = getPRCollection();
     return getUserSubCollection(req, res, "skills", skillsCollection);
 });
 
 // GET for all the projects related to the user
-PR_ROUTES.get("/Projects/:userId", (req, res) => {
+PR_ROUTER.get("/Projects/:userId", (req, res) => {
     const { projectsCollection } = getPRCollection();
     return getUserSubCollection(req, res, "projects", projectsCollection);
 });
 
 // POST to send a direct message to the user
-PR_ROUTES.post('/SendNewMessage', async (req, res) => {
+PR_ROUTER.post('/SendNewMessage', async (req, res) => {
     const { userCollection, messagesCollection } = getPRCollection();
     try {
         const { userId, name, email, message } = req.body;
@@ -284,4 +284,4 @@ PR_ROUTES.post('/SendNewMessage', async (req, res) => {
     }
 });
 
-module.exports = PR_ROUTES; // Export all the functions
+module.exports = PR_ROUTER; // Export all the functions

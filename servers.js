@@ -10,8 +10,8 @@ const path = require('path');
 
 // MongoDB Connections 
 const { personalResumeConnectDB, slotScholarsConnectDB } = require('./mongoServers.js');
-const PR_ROUTES = require('./routes/personalResume_Routes.js');
-const SS_ROUTES = require('./routes/slotScholars_Routes.js');
+const PR_ROUTER = require('./routers/personalResume_Router.js');
+const SS_ROUTER = require('./routers/slotScholars_Router.js');
 
 // Port configuration
 const PORT = process.env.PORT || 3000;
@@ -25,10 +25,10 @@ app.use(morgan('short'));
 app.use(cors());
 
 // Second Middleware to serve static files (images, etc.)
-let imagePath = path.join(__dirname, './images');
+let imagePath = path.join(__dirname, './assets/personalResumeImages');
 app.use(express.static(imagePath));
 
-let imageSSPath = path.join(__dirname, './slotScholarsImages');
+let imageSSPath = path.join(__dirname, './assets/slotScholarsImages');
 app.use(express.static(imageSSPath));
 
 // async function to connect to MongoDB databases
@@ -40,8 +40,8 @@ app.use(express.static(imageSSPath));
         console.log('Connected to Slot Scholars MongoDB database successfully.');
         
         // Middleware to parse JSON request bodies
-        app.use(PR_ROUTES);
-        app.use(SS_ROUTES);
+        app.use(PR_ROUTER);
+        app.use(SS_ROUTER);
 
         // Third Middleware to handle 404 errors
         app.use(function (req, res) {

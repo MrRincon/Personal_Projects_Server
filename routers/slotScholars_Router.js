@@ -5,9 +5,9 @@ const bodyParser = require('body-parser');
 // Import collections from mongoDB server
 const { getSSCollection } = require('../mongoServers.js');
 
-const SS_ROUTES = express();
-SS_ROUTES.use(bodyParser.json());
-SS_ROUTES.set('json spaces', 3);
+const SS_ROUTER = express();
+SS_ROUTER.use(bodyParser.json());
+SS_ROUTER.set('json spaces', 3);
 
 // Function to generate a random Id for the new orders placed
 function generateRandomID() {
@@ -30,12 +30,12 @@ async function generateUniqueID() {
 }
 
 // GET to welcome to the server
-SS_ROUTES.get(`/`, (req, res) => {
+SS_ROUTER.get(`/`, (req, res) => {
     res.send("Welcome to SlotScholars")
 })
 
 // GET for all the lessons
-SS_ROUTES.get(`/lessons`, async (req, res) => {
+SS_ROUTER.get(`/lessons`, async (req, res) => {
     try {// Try catch for any errors when trying to fetch the lessons
         const { productsCollection } = getSSCollection();
         const lessons = await productsCollection.find({}).toArray();// Find all the lessons from the collection
@@ -47,7 +47,7 @@ SS_ROUTES.get(`/lessons`, async (req, res) => {
 });
 
 // GET for all the orders
-SS_ROUTES.get(`/orders`, async (req, res) => {
+SS_ROUTER.get(`/orders`, async (req, res) => {
     try {// Try catch for any errors when trying to fetch the orders
         const { ordersCollection } = getSSCollection();
         const orders = await ordersCollection.find({}).toArray();// Find all the orders from the collection
@@ -59,7 +59,7 @@ SS_ROUTES.get(`/orders`, async (req, res) => {
 })
 
 // POST for searched lessons
-SS_ROUTES.post(`/search`, async (req, res) => {
+SS_ROUTER.post(`/search`, async (req, res) => {
     try {
         const { productsCollection } = getSSCollection();
         const searchQ = req.body;
@@ -86,7 +86,7 @@ SS_ROUTES.post(`/search`, async (req, res) => {
 })
 
 //POST for new orders
-SS_ROUTES.post(`/placeOrder`, async (req, res) => {
+SS_ROUTER.post(`/placeOrder`, async (req, res) => {
     try {// Try catch for any errors of the req.body
         const { ordersCollection } = getSSCollection();
         const data = req.body;
@@ -99,7 +99,7 @@ SS_ROUTES.post(`/placeOrder`, async (req, res) => {
 })
 
 //PUT for updating the lessons
-SS_ROUTES.put(`/updateLessons`, async (req, res) => {
+SS_ROUTER.put(`/updateLessons`, async (req, res) => {
     try {// Try catch for any errors of the req.body
         const { productsCollection } = getSSCollection();
         const data = req.body;
@@ -115,4 +115,4 @@ SS_ROUTES.put(`/updateLessons`, async (req, res) => {
     }
 })
 
-module.exports = SS_ROUTES;// Export all the functions
+module.exports = SS_ROUTER;// Export all the functions

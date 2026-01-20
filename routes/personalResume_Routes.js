@@ -75,7 +75,7 @@ function decrypt(text) {
 
 // Function to get any sub-collection for a user
 async function getUserSubCollection(req, res, field, collection) {
-    const { USER } = getPRCollection();
+    const { userCollection } = getPRCollection();
     const { userId } = req.params;
 
     if (!ObjectId.isValid(userId)) {
@@ -83,7 +83,7 @@ async function getUserSubCollection(req, res, field, collection) {
     }
 
     try {
-        const user = await USER.findOne({ _id: new ObjectId(userId) });
+        const user = await userCollection.findOne({ _id: new ObjectId(userId) });
 
         if (!user || !Array.isArray(user[field]) || user[field].length === 0) {
             return res.json([]);
@@ -128,9 +128,9 @@ PR_ROUTES.get(`/`, (req, res) => {
 
 // GET for the owner information
 PR_ROUTES.get(`/Owner`, async (req, res) => {
-    const { USER } = getPRCollection();
+    const { userCollection } = getPRCollection();
     try {
-        const owner = await USER.find({ name: "Alam" }).toArray();
+        const owner = await userCollection.find({ name: "Alam" }).toArray();
 
         if (owner.length === 0) {
             return res.status(404).json({ success: false, message: "Owner not found" });
@@ -160,20 +160,20 @@ PR_ROUTES.get(`/Owner`, async (req, res) => {
 
 // GET for all the links related to the user
 PR_ROUTES.get("/Links/:userId", (req, res) => {
-    const { LINKS } = getPRCollection();
-    return getUserSubCollection(req, res, "links", LINKS);
+    const { linksCollection } = getPRCollection();
+    return getUserSubCollection(req, res, "links", linksCollection);
 });
 
 // GET for an specific education of the user
 PR_ROUTES.get(`/Education/:educationId`, async (req, res) => {
-    const { EDUCATION } = getPRCollection();
+    const { educationCollection } = getPRCollection();
     if (!ObjectId.isValid(req.params.educationId)) {
         return res.status(400).json({ success: false, message: "Invalid user ID" });
     }
     const educationId = new ObjectId(req.params.educationId);
 
     try {
-        const education = await EDUCATION.findOne({ _id: educationId });
+        const education = await educationCollection.findOne({ _id: educationId });
 
         if (!education) {
             return res.status(404).json({ success: false, message: "Education not found" });
@@ -190,19 +190,19 @@ PR_ROUTES.get(`/Education/:educationId`, async (req, res) => {
 
 // GET for all the skills related to the user
 PR_ROUTES.get("/Skills/:userId", (req, res) => {
-    const { SKILLS } = getPRCollection();
-    return getUserSubCollection(req, res, "skills", SKILLS);
+    const { skillsCollection } = getPRCollection();
+    return getUserSubCollection(req, res, "skills", skillsCollection);
 });
 
 // GET for all the projects related to the user
 PR_ROUTES.get("/Projects/:userId", (req, res) => {
-    const { PROJECTS } = getPRCollection();
-    return getUserSubCollection(req, res, "projects", PROJECTS);
+    const { projectsCollection } = getPRCollection();
+    return getUserSubCollection(req, res, "projects", projectsCollection);
 });
 
 // POST to send a direct message to the user
 PR_ROUTES.post('/SendNewMessage', async (req, res) => {
-    const { USER, MESSAGES } = getPRCollection();
+    const { userCollection, messagesCollection } = getPRCollection();
     try {
         const { userId, name, email, message } = req.body;
 
@@ -248,7 +248,7 @@ PR_ROUTES.post('/SendNewMessage', async (req, res) => {
             return res.status(400).json({ error: "Message cannot exceed 300 characters." });
         }
 
-        const user = await USER.findOne({ _id: new ObjectId(userId) });
+        const user = await userCollection.findOne({ _id: new ObjectId(userId) });
 
         if (!user || !Array.isArray(user.inbox)) {
             return res.status(404).json({ error: "User ID not found or inbox structure not present" })
@@ -261,10 +261,10 @@ PR_ROUTES.post('/SendNewMessage', async (req, res) => {
             date: new Date()
         };
 
-        const insertResponse = await MESSAGES.insertOne(newMessage);
+        const insertResponse = await messagesCollection.insertOne(newMessage);
         const messageId = insertResponse.insertedId;
 
-        await USER.updateOne(
+        await userCollection.updateOne(
             { _id: new ObjectId(userId) },
             { $push: { inbox: messageId } }
         );

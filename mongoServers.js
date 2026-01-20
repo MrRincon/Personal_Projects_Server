@@ -70,6 +70,12 @@ function getPRCollection () {
     }
     return {
         // Collections
+        userCollection: personalResumeDB.collection("User"),
+        educationCollection: personalResumeDB.collection("Education"),
+        linksCollection: personalResumeDB.collection("Links"),
+        projectsCollection: personalResumeDB.collection("Projects"),
+        skillsCollection: personalResumeDB.collection("Skills"),
+        messagesCollection: personalResumeDB.collection("Messages")
     };
 }
 

@@ -2,7 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-// Import collections from mongoDB server
+// Import collections  from mongoDB server
 const { getSSCollection } = require('../mongoServers.js');
 
 const SS_ROUTER = express();
@@ -31,7 +31,7 @@ async function generateUniqueID() {
 
 // GET to welcome to the server
 SS_ROUTER.get(`/`, (req, res) => {
-    res.send("Welcome to SlotScholars")
+    res.send("Welcome")
 })
 
 // GET for all the lessons

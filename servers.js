@@ -26,11 +26,9 @@ app.use(cors());
 
 // Second Middleware to serve static files (images, etc.)
 let assetsPRPath = path.join(__dirname, './assets/PRAssets/');
-console.log(assetsPRPath);
 app.use(express.static(assetsPRPath));
 
-let assetsSSPath = path.join(__dirname, './assets/SSAssets/');
-console.log(assetsSSPath);
+let assetsSSPath = path.join(__dirname, './assets/SSAssets/'); 
 app.use(express.static(assetsSSPath));
 
 // async function to connect to MongoDB databases
@@ -58,4 +56,4 @@ app.use(express.static(assetsSSPath));
         console.error('Error connecting to MongoDB databases:', error);
         process.exit(1);
     }
-})();
+})();  
